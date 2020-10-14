@@ -1,5 +1,5 @@
 ---
-title: react传递参数的方式
+title: REACT 传递参数的方式
 ---
 
 # 开始
