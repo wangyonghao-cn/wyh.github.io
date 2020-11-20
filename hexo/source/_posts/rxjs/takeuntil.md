@@ -1,5 +1,5 @@
 ---
-title: angular中的rxjs操作符takeUntil
+title: rxjs操作符takeUntil
 ---
 
 ## 介绍
