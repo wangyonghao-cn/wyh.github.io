@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/wyh.github.io/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/wyh.github.io/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/wyh.github.io/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/wyh.github.io/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/wyh.github.io/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"github.com","root":"/wyh.github.io/","images":"/wyh.github.io/images","scheme":"Pisces","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="前言    RxJS作为目前前端最热门的库之一，提供强大的功能性方法来处理事件，还有能力利用你之前掌握的语言知识，如果你掌握了响应式编程，那它会很好理解，否则我们将会面临命令式编程转换为响应式编程的困难。虽然如此，但它绝对值得你去学习！      操作符是RX最重要的内容，我们将学习操作符的组合类型">
+<meta property="og:type" content="article">
+<meta property="og:title" content="rxjs中的操作符 - 组合类">
+<meta property="og:url" content="https://github.com/wangyonghao-cn/wyh.github.io.git/2021/02/26/rxjs/operators.arr/index.html">
+<meta property="og:site_name" content="驿站">
+<meta property="og:description" content="前言    RxJS作为目前前端最热门的库之一，提供强大的功能性方法来处理事件，还有能力利用你之前掌握的语言知识，如果你掌握了响应式编程，那它会很好理解，否则我们将会面临命令式编程转换为响应式编程的困难。虽然如此，但它绝对值得你去学习！      操作符是RX最重要的内容，我们将学习操作符的组合类型">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-02-26T09:14:44.456Z">
+<meta property="article:modified_time" content="2021-02-26T09:14:44.456Z">
+<meta property="article:author" content="wyh">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://github.com/wangyonghao-cn/wyh.github.io.git/2021/02/26/rxjs/operators.arr/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>rxjs中的操作符 - 组合类 | 驿站</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/wyh.github.io/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">驿站</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="nav-number">2.</span> <span class="nav-text">操作符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#combineLatest"><span class="nav-number">2.1.</span> <span class="nav-text">combineLatest</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#combineAll"><span class="nav-number">2.2.</span> <span class="nav-text">combineAll</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#concat"><span class="nav-number">2.3.</span> <span class="nav-text">concat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#concatAll"><span class="nav-number">2.4.</span> <span class="nav-text">concatAll</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#forkJoin"><span class="nav-number">2.5.</span> <span class="nav-text">forkJoin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#merge-%EF%BC%88%E5%B7%B2%E5%BC%83%E7%94%A8%EF%BC%89"><span class="nav-number">2.6.</span> <span class="nav-text">merge （已弃用）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mergeAll"><span class="nav-number">2.7.</span> <span class="nav-text">mergeAll</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pairwise"><span class="nav-number">2.8.</span> <span class="nav-text">pairwise</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#race-%E5%B7%B2%E5%BC%83%E7%94%A8"><span class="nav-number">2.9.</span> <span class="nav-text">race (已弃用)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#startWith"><span class="nav-number">2.10.</span> <span class="nav-text">startWith</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#withLatestFrom"><span class="nav-number">2.11.</span> <span class="nav-text">withLatestFrom</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zip%EF%BC%88%E5%B7%B2%E5%BC%83%E7%94%A8%EF%BC%89"><span class="nav-number">2.12.</span> <span class="nav-text">zip（已弃用）</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">wyh</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/wyh.github.io/archives">
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/wangyonghao-cn/wyh.github.io.git/2021/02/26/rxjs/operators.arr/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/wyh.github.io/images/avatar.gif">
+      <meta itemprop="name" content="wyh">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="驿站">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          rxjs中的操作符 - 组合类
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-02-26 17:14:44" itemprop="dateCreated datePublished" datetime="2021-02-26T17:14:44+08:00">2021-02-26</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>   RxJS作为目前前端最热门的库之一，提供强大的功能性方法来处理事件，还有能力利用你之前掌握的语言知识，如果你掌握了响应式编程，那它会很好理解，否则我们将会面临命令式编程转换为响应式编程的困难。虽然如此，但它绝对值得你去学习！</p>
+</blockquote>
+<blockquote>
+<p>   操作符是RX最重要的内容，我们将学习操作符的组合类型</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="操作符"><a href="#操作符" class="headerlink" title="操作符"></a>操作符</h2><h3 id="combineLatest"><a href="#combineLatest" class="headerlink" title="combineLatest"></a>combineLatest</h3><blockquote>
+<p>当任意 observable 发出值时，发出每个 observable 的最新值(combineLatest(observables: …Observable, project: function): Observable)</p>
+</blockquote>
+<blockquote>
+<p>当有多个长期活动的 observables 且它们依靠彼此来进行一些计算或决定时，此操作符是最适合的，请注意传入的observable都最少发出一个值时才会发出初始值</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// RxJS v6+</span></span><br><span class="line"><span class="keyword">import</span> &#123; timer, combineLatest &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// timerOne 在1秒时发出第一个值，然后每4秒发送一次</span></span><br><span class="line"><span class="keyword">const</span> timerOne = timer(<span class="number">1000</span>, <span class="number">4000</span>);</span><br><span class="line"><span class="comment">// timerTwo 在2秒时发出第一个值，然后每4秒发送一次</span></span><br><span class="line"><span class="keyword">const</span> timerTwo = timer(<span class="number">2000</span>, <span class="number">4000</span>);</span><br><span class="line"><span class="comment">// timerThree 在3秒时发出第一个值，然后每4秒发送一次</span></span><br><span class="line"><span class="keyword">const</span> timerThree = timer(<span class="number">3000</span>, <span class="number">4000</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 当一个 timer 发出值时，将每个 timer 的最新值作为一个数组发出</span></span><br><span class="line"><span class="keyword">const</span> combined = combineLatest(timerOne, timerTwo, timerThree);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> subscribe = combined.subscribe(<span class="function"><span class="params">latestValues</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 从 timerValOne、timerValTwo 和 timerValThree 中获取最新发出的值</span></span><br><span class="line">    <span class="keyword">const</span> [timerValOne, timerValTwo, timerValThree] = latestValues;</span><br><span class="line">  <span class="comment">/*</span></span><br><span class="line"><span class="comment">      示例:</span></span><br><span class="line"><span class="comment">    timerOne first tick: &#x27;Timer One Latest: 1, Timer Two Latest:0, Timer Three Latest: 0</span></span><br><span class="line"><span class="comment">    timerTwo first tick: &#x27;Timer One Latest: 1, Timer Two Latest:1, Timer Three Latest: 0</span></span><br><span class="line"><span class="comment">    timerThree first tick: &#x27;Timer One Latest: 1, Timer Two Latest:1, Timer Three Latest: 1</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line">    <span class="built_in">console</span>.log(</span><br><span class="line">      <span class="string">`Timer One Latest: <span class="subst">$&#123;timerValOne&#125;</span>,</span></span><br><span class="line"><span class="string">     Timer Two Latest: <span class="subst">$&#123;timerValTwo&#125;</span>,</span></span><br><span class="line"><span class="string">     Timer Three Latest: <span class="subst">$&#123;timerValThree&#125;</span>`</span></span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>它还可以接收一个处理函数，subscribe将接收其return的值</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// RxJS v6+</span></span><br><span class="line"><span class="keyword">import</span> &#123; timer, combineLatest &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// timerOne 在1秒时发出第一个值，然后每4秒发送一次</span></span><br><span class="line"><span class="keyword">const</span> timerOne = timer(<span class="number">1000</span>, <span class="number">4000</span>);</span><br><span class="line"><span class="comment">// timerTwo 在2秒时发出第一个值，然后每4秒发送一次</span></span><br><span class="line"><span class="keyword">const</span> timerTwo = timer(<span class="number">2000</span>, <span class="number">4000</span>);</span><br><span class="line"><span class="comment">// timerThree 在3秒时发出第一个值，然后每4秒发送一次</span></span><br><span class="line"><span class="keyword">const</span> timerThree = timer(<span class="number">3000</span>, <span class="number">4000</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// combineLatest 还接收一个可选的 projection 函数</span></span><br><span class="line"><span class="keyword">const</span> combinedProject = combineLatest(</span><br><span class="line">  timerOne,</span><br><span class="line">  timerTwo,</span><br><span class="line">  timerThree,</span><br><span class="line">  (one, two, three) =&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`Timer One (Proj) Latest: <span class="subst">$&#123;one&#125;</span>, </span></span><br><span class="line"><span class="string">              Timer Two (Proj) Latest: <span class="subst">$&#123;two&#125;</span>, </span></span><br><span class="line"><span class="string">              Timer Three (Proj) Latest: <span class="subst">$&#123;three&#125;</span>`</span>;</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br><span class="line"><span class="comment">// 输出值</span></span><br><span class="line"><span class="keyword">const</span> subscribe = combinedProject.subscribe(<span class="function"><span class="params">latestValuesProject</span> =&gt;</span></span><br><span class="line">  <span class="built_in">console</span>.log(latestValuesProject)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>示例二： 监听两个按钮的click，并计算点击次数</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// RxJS v6+ 示例2</span></span><br><span class="line"><span class="keyword">import</span> &#123; fromEvent, combineLatest &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; mapTo, startWith, scan, tap, map &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs/operators&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 用来设置 HTML 的辅助函数</span></span><br><span class="line"><span class="keyword">const</span> setHtml = <span class="function"><span class="params">id</span> =&gt;</span> <span class="function"><span class="params">val</span> =&gt;</span> (<span class="built_in">document</span>.getElementById(id).innerHTML = val);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> addOneClick$ = <span class="function"><span class="params">id</span> =&gt;</span></span><br><span class="line">  fromEvent(<span class="built_in">document</span>.getElementById(id), <span class="string">&#x27;click&#x27;</span>).pipe(</span><br><span class="line">    <span class="comment">// 将每次点击映射成1</span></span><br><span class="line">    mapTo(<span class="number">1</span>),</span><br><span class="line">    startWith(<span class="number">0</span>),</span><br><span class="line">    <span class="comment">// 追踪运行中的总数</span></span><br><span class="line">    scan(<span class="function">(<span class="params">acc, curr</span>) =&gt;</span> acc + curr),</span><br><span class="line">    <span class="comment">// 为适当的元素设置 HTML</span></span><br><span class="line">    tap(setHtml(<span class="string">`<span class="subst">$&#123;id&#125;</span>Total`</span>))</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> combineTotal$ = combineLatest(addOneClick$(<span class="string">&#x27;red&#x27;</span>), addOneClick$(<span class="string">&#x27;black&#x27;</span>))</span><br><span class="line">  .pipe(map(<span class="function">(<span class="params">[val1, val2]</span>) =&gt;</span> val1 + val2))</span><br><span class="line">  .subscribe(setHtml(<span class="string">&#x27;total&#x27;</span>));</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&#x27;red&#x27;</span>&gt;</span>Red<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&#x27;black&#x27;</span>&gt;</span>Black<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>Red: <span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">&quot;redTotal&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>Black: <span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">&quot;blackTotal&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>Total: <span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">&quot;total&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="combineAll"><a href="#combineAll" class="headerlink" title="combineAll"></a>combineAll</h3><blockquote>
+<p>当源 observable 完成时，对收集的 observables 使用 combineLatest 策略； (combineAll(project: function): Observable)</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// RxJS v6+</span></span><br><span class="line"><span class="keyword">import</span> &#123; take, map, combineAll &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs/operators&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; interval &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 每秒发出值，并只取前2个</span></span><br><span class="line"><span class="keyword">const</span> source = interval(<span class="number">1000</span>).pipe(take(<span class="number">2</span>));</span><br><span class="line"><span class="comment">// 将 source 发出的每个值映射成取前5个值的 interval observable</span></span><br><span class="line"><span class="keyword">const</span> example = source.pipe(</span><br><span class="line">  map(<span class="function"><span class="params">val</span> =&gt;</span> interval(<span class="number">1000</span>).pipe(map(<span class="function"><span class="params">i</span> =&gt;</span> <span class="string">`Result (<span class="subst">$&#123;val&#125;</span>): <span class="subst">$&#123;i&#125;</span>`</span>), take(<span class="number">5</span>)))</span><br><span class="line">);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  soure 中的2个值会被映射成2个(内部的) interval observables，</span></span><br><span class="line"><span class="comment">  这2个内部 observables 每秒使用 combineLatest 策略来 combineAll，</span></span><br><span class="line"><span class="comment">  每当任意一个内部 observable 发出值，就会发出每个内部 observable 的最新值。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">const</span> combined = example.pipe(combineAll());</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输出:</span></span><br><span class="line"><span class="comment">  [&quot;Result (0): 0&quot;, &quot;Result (1): 0&quot;]</span></span><br><span class="line"><span class="comment">  [&quot;Result (0): 1&quot;, &quot;Result (1): 0&quot;]</span></span><br><span class="line"><span class="comment">  [&quot;Result (0): 1&quot;, &quot;Result (1): 1&quot;]</span></span><br><span class="line"><span class="comment">  [&quot;Result (0): 2&quot;, &quot;Result (1): 1&quot;]</span></span><br><span class="line"><span class="comment">  [&quot;Result (0): 2&quot;, &quot;Result (1): 2&quot;]</span></span><br><span class="line"><span class="comment">  [&quot;Result (0): 3&quot;, &quot;Result (1): 2&quot;]</span></span><br><span class="line"><span class="comment">  [&quot;Result (0): 3&quot;, &quot;Result (1): 3&quot;]</span></span><br><span class="line"><span class="comment">  [&quot;Result (0): 4&quot;, &quot;Result (1): 3&quot;]</span></span><br><span class="line"><span class="comment">  [&quot;Result (0): 4&quot;, &quot;Result (1): 4&quot;]</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">const</span> subscribe = combined.subscribe(<span class="function"><span class="params">val</span> =&gt;</span> <span class="built_in">console</span>.log(val));</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="concat"><a href="#concat" class="headerlink" title="concat"></a>concat</h3><blockquote>
+<p>按照顺序，前一个 observable 完成了再订阅下一个 observable 并发出值!(concat(observables: …*): Observable)</p>
+</blockquote>
+<blockquote>
+<p>示例 1: concat 2个基础的 observables</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// RxJS v6+</span></span><br><span class="line"><span class="keyword">import</span> &#123; concat &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs/operators&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="keyword">of</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 发出 1,2,3</span></span><br><span class="line"><span class="keyword">const</span> sourceOne = <span class="keyword">of</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line"><span class="comment">// 发出 4,5,6</span></span><br><span class="line"><span class="keyword">const</span> sourceTwo = <span class="keyword">of</span>(<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>);</span><br><span class="line"><span class="comment">// 先发出 sourceOne 的值，当完成时订阅 sourceTwo</span></span><br><span class="line"><span class="keyword">const</span> example = sourceOne.pipe(concat(sourceTwo));</span><br><span class="line"><span class="comment">// 输出: 1,2,3,4,5,6</span></span><br><span class="line"><span class="keyword">const</span> subscribe = example.subscribe(<span class="function"><span class="params">val</span> =&gt;</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;Example: Basic concat:&#x27;</span>, val)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>示例 2: concat 作为静态方法</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// RxJS v6+</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="keyword">of</span>, concat &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 发出 1,2,3</span></span><br><span class="line"><span class="keyword">const</span> sourceOne = <span class="keyword">of</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line"><span class="comment">// 发出 4,5,6</span></span><br><span class="line"><span class="keyword">const</span> sourceTwo = <span class="keyword">of</span>(<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 作为静态方法使用</span></span><br><span class="line"><span class="keyword">const</span> example = concat(sourceOne, sourceTwo);</span><br><span class="line"><span class="comment">// 输出: 1,2,3,4,5,6</span></span><br><span class="line"><span class="keyword">const</span> subscribe = example.subscribe(<span class="function"><span class="params">val</span> =&gt;</span> <span class="built_in">console</span>.log(val));</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>示例 3: 使用延迟的 souce observable 进行 concat</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// RxJS v6+</span></span><br><span class="line"><span class="keyword">import</span> &#123; delay, concat &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs/operators&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="keyword">of</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 发出 1,2,3</span></span><br><span class="line"><span class="keyword">const</span> sourceOne = <span class="keyword">of</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line"><span class="comment">// 发出 4,5,6</span></span><br><span class="line"><span class="keyword">const</span> sourceTwo = <span class="keyword">of</span>(<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 延迟3秒，然后发出</span></span><br><span class="line"><span class="keyword">const</span> sourceThree = sourceOne.pipe(delay(<span class="number">3000</span>));</span><br><span class="line"><span class="comment">// sourceTwo 要等待 sourceOne 完成才能订阅</span></span><br><span class="line"><span class="keyword">const</span> example = sourceThree.pipe(concat(sourceTwo));</span><br><span class="line"><span class="comment">// 输出: 1,2,3,4,5,6</span></span><br><span class="line"><span class="keyword">const</span> subscribe = example.subscribe(<span class="function"><span class="params">val</span> =&gt;</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;Example: Delayed source one:&#x27;</span>, val)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>示例 4: 使用不完成的 source observable 进行 concat</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// RxJS v6+</span></span><br><span class="line"><span class="keyword">import</span> &#123; interval, <span class="keyword">of</span>, concat &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 当 source 永远不完成时，随后的 observables 永远不会运行</span></span><br><span class="line"><span class="keyword">const</span> source = concat(interval(<span class="number">1000</span>), <span class="keyword">of</span>(<span class="string">&#x27;This&#x27;</span>, <span class="string">&#x27;Never&#x27;</span>, <span class="string">&#x27;Runs&#x27;</span>));</span><br><span class="line"><span class="comment">// 输出: 0,1,2,3,4....</span></span><br><span class="line"><span class="keyword">const</span> subscribe = source.subscribe(<span class="function"><span class="params">val</span> =&gt;</span></span><br><span class="line">  <span class="built_in">console</span>.log(</span><br><span class="line">    <span class="string">&#x27;Example: Source never completes, second observable never runs:&#x27;</span>,</span><br><span class="line">    val</span><br><span class="line">  )</span><br><span class="line"><span class="comment">// 输出: 0,1,2,3,4....</span></span><br><span class="line"><span class="keyword">const</span> subscribe = source.subscribe(<span class="function"><span class="params">val</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&#x27;Example: Source never completes, second observable never runs:&#x27;</span>, val));</span><br></pre></td></tr></table></figure>
+<h3 id="concatAll"><a href="#concatAll" class="headerlink" title="concatAll"></a>concatAll</h3><blockquote>
+<p>收集 observables，当前一个完成时订阅下一个(concatAll(): Observable)</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// RxJS v6+</span></span><br><span class="line"><span class="keyword">import</span> &#123; map, concatAll &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs/operators&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="keyword">of</span>, interval &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 每2秒发出值</span></span><br><span class="line"><span class="keyword">const</span> source = interval(<span class="number">2000</span>);</span><br><span class="line"><span class="keyword">const</span> example = source.pipe(</span><br><span class="line">  <span class="comment">// 为了演示，增加10并作为 observable 返回</span></span><br><span class="line">  map(<span class="function"><span class="params">val</span> =&gt;</span> <span class="keyword">of</span>(val + <span class="number">10</span>)),</span><br><span class="line">  <span class="comment">// 合并内部 observables 的值</span></span><br><span class="line">  concatAll()</span><br><span class="line">);</span><br><span class="line"><span class="comment">// 输出: &#x27;Example with Basic Observable 10&#x27;, &#x27;Example with Basic Observable 11&#x27;...</span></span><br><span class="line"><span class="keyword">const</span> subscribe = example.subscribe(<span class="function"><span class="params">val</span> =&gt;</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;Example with Basic Observable:&#x27;</span>, val)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h3 id="forkJoin"><a href="#forkJoin" class="headerlink" title="forkJoin"></a>forkJoin</h3><blockquote>
+<p>当所有 observables 完成时，发出每个 observable 的最新值(forkJoin(…args, selector : function)), 如果内部 observable 不完成的话，forkJoin 永远不会发出值</p>
+</blockquote>
+<blockquote>
+<p>示例 1: Observables 再不同的时间间隔后完成</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// RxJS v6+</span></span><br><span class="line"><span class="keyword">import</span> &#123; delay, take &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs/operators&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; forkJoin, <span class="keyword">of</span>, interval &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> myPromise = <span class="function"><span class="params">val</span> =&gt;</span></span><br><span class="line">  <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span></span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> resolve(<span class="string">`Promise Resolved: <span class="subst">$&#123;val&#125;</span>`</span>), <span class="number">5000</span>)</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  当所有 observables 完成时，将每个 observable </span></span><br><span class="line"><span class="comment">  的最新值作为数组发出</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">const</span> example = forkJoin(</span><br><span class="line">  <span class="comment">// 立即发出 &#x27;Hello&#x27;</span></span><br><span class="line">  <span class="keyword">of</span>(<span class="string">&#x27;Hello&#x27;</span>),</span><br><span class="line">  <span class="comment">// 1秒后发出 &#x27;World&#x27;</span></span><br><span class="line">  <span class="keyword">of</span>(<span class="string">&#x27;World&#x27;</span>).pipe(delay(<span class="number">1000</span>)),</span><br><span class="line">  <span class="comment">// 1秒后发出0</span></span><br><span class="line">  interval(<span class="number">1000</span>).pipe(take(<span class="number">1</span>)),</span><br><span class="line">  <span class="comment">// 以1秒的时间间隔发出0和1</span></span><br><span class="line">  interval(<span class="number">1000</span>).pipe(take(<span class="number">2</span>)),</span><br><span class="line">  <span class="comment">// 5秒后解析 &#x27;Promise Resolved&#x27; 的 promise</span></span><br><span class="line">  myPromise(<span class="string">&#x27;RESULT&#x27;</span>)</span><br><span class="line">);</span><br><span class="line"><span class="comment">//输出: [&quot;Hello&quot;, &quot;World&quot;, 0, 1, &quot;Promise Resolved: RESULT&quot;]</span></span><br><span class="line"><span class="keyword">const</span> subscribe = example.subscribe(<span class="function"><span class="params">val</span> =&gt;</span> <span class="built_in">console</span>.log(val));</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>示例 2: 发起任意多个请求</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// RxJS v6+</span></span><br><span class="line"><span class="keyword">import</span> &#123; mergeMap &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs/operators&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; forkJoin, <span class="keyword">of</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> myPromise = <span class="function"><span class="params">val</span> =&gt;</span></span><br><span class="line">  <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span></span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> resolve(<span class="string">`Promise Resolved: <span class="subst">$&#123;val&#125;</span>`</span>), <span class="number">5000</span>)</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> source = <span class="keyword">of</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]);</span><br><span class="line"><span class="comment">// 发出数组的全部5个结果</span></span><br><span class="line"><span class="keyword">const</span> example = source.pipe(mergeMap(<span class="function"><span class="params">q</span> =&gt;</span> forkJoin(...q.map(myPromise))));</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输出:</span></span><br><span class="line"><span class="comment">  [</span></span><br><span class="line"><span class="comment">   &quot;Promise Resolved: 1&quot;,</span></span><br><span class="line"><span class="comment">   &quot;Promise Resolved: 2&quot;,</span></span><br><span class="line"><span class="comment">   &quot;Promise Resolved: 3&quot;,</span></span><br><span class="line"><span class="comment">   &quot;Promise Resolved: 4&quot;,</span></span><br><span class="line"><span class="comment">   &quot;Promise Resolved: 5&quot;</span></span><br><span class="line"><span class="comment">  ]</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">const</span> subscribe = example.subscribe(<span class="function"><span class="params">val</span> =&gt;</span> <span class="built_in">console</span>.log(val));</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>示例 3: 在外部处理错误</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// RxJS v6+</span></span><br><span class="line"><span class="keyword">import</span> &#123; delay, catchError &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs/operators&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; forkJoin, <span class="keyword">of</span>, throwError &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  当所有 observables 完成时，将每个 observable </span></span><br><span class="line"><span class="comment">  的最新值作为数组发出</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">const</span> example = forkJoin(</span><br><span class="line">  <span class="comment">// 立即发出 &#x27;Hello&#x27;</span></span><br><span class="line">  <span class="keyword">of</span>(<span class="string">&#x27;Hello&#x27;</span>),</span><br><span class="line">  <span class="comment">// 1秒后发出 &#x27;World&#x27;</span></span><br><span class="line">  <span class="keyword">of</span>(<span class="string">&#x27;World&#x27;</span>).pipe(delay(<span class="number">1000</span>)),</span><br><span class="line">  <span class="comment">// 抛出错误</span></span><br><span class="line">  throwError(<span class="string">&#x27;This will error&#x27;</span>)</span><br><span class="line">).pipe(catchError(<span class="function"><span class="params">error</span> =&gt;</span> <span class="keyword">of</span>(error)));</span><br><span class="line"><span class="comment">// 输出: &#x27;This will Error&#x27;</span></span><br><span class="line"><span class="keyword">const</span> subscribe = example.subscribe(<span class="function"><span class="params">val</span> =&gt;</span> <span class="built_in">console</span>.log(val));</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>某个错误得到其他成功的</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// RxJS v6+</span></span><br><span class="line"><span class="keyword">import</span> &#123; delay, catchError &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs/operators&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; forkJoin, <span class="keyword">of</span>, throwError &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  当所有 observables 完成时，将每个 observable </span></span><br><span class="line"><span class="comment">  的最新值作为数组发出</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">const</span> example = forkJoin(</span><br><span class="line">  <span class="comment">// 立即发出 &#x27;Hello&#x27;</span></span><br><span class="line">  <span class="keyword">of</span>(<span class="string">&#x27;Hello&#x27;</span>),</span><br><span class="line">  <span class="comment">// 1秒后发出 &#x27;World&#x27;</span></span><br><span class="line">  <span class="keyword">of</span>(<span class="string">&#x27;World&#x27;</span>).pipe(delay(<span class="number">1000</span>)),</span><br><span class="line">  <span class="comment">// 抛出错误</span></span><br><span class="line">  throwError(<span class="string">&#x27;This will error&#x27;</span>).pipe(catchError(<span class="function"><span class="params">error</span> =&gt;</span> <span class="keyword">of</span>(error)))</span><br><span class="line">);</span><br><span class="line"><span class="comment">// 输出: [&quot;Hello&quot;, &quot;World&quot;, &quot;This will error&quot;]</span></span><br><span class="line"><span class="keyword">const</span> subscribe = example.subscribe(<span class="function"><span class="params">val</span> =&gt;</span> <span class="built_in">console</span>.log(val));</span><br></pre></td></tr></table></figure>
+
+<h3 id="merge-（已弃用）"><a href="#merge-（已弃用）" class="headerlink" title="merge （已弃用）"></a>merge （已弃用）</h3><blockquote>
+<p>将多个 observables 转换成单个 observable(merge(input: Observable): Observable),无顺序限制</p>
+</blockquote>
+<h3 id="mergeAll"><a href="#mergeAll" class="headerlink" title="mergeAll"></a>mergeAll</h3><blockquote>
+<p>收集并订阅所有的 observables(mergeAll(concurrent: number): Observable) ，mergeAll 操作符接收一个可选参数<br>  以决定在同一时间有多少个内部 observables 可以被订阅。其余的 observables 会先暂存以等待订阅。</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// RxJS v6+</span></span><br><span class="line"><span class="keyword">import</span> &#123; map, mergeAll &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs/operators&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="keyword">of</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> myPromise = <span class="function"><span class="params">val</span> =&gt;</span></span><br><span class="line">  <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> resolve(<span class="string">`Result: <span class="subst">$&#123;val&#125;</span>`</span>), <span class="number">2000</span>));</span><br><span class="line"><span class="comment">// 发出 1,2,3</span></span><br><span class="line"><span class="keyword">const</span> source = <span class="keyword">of</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> example = source.pipe(</span><br><span class="line">  <span class="comment">// 将每个值映射成 promise</span></span><br><span class="line">  map(<span class="function"><span class="params">val</span> =&gt;</span> myPromise(val)),</span><br><span class="line">  <span class="comment">// 发出 source 的结果</span></span><br><span class="line">  mergeAll(<span class="number">2</span>)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输出:</span></span><br><span class="line"><span class="comment">  &quot;Result: 1&quot;</span></span><br><span class="line"><span class="comment">  &quot;Result: 2&quot;</span></span><br><span class="line"><span class="comment">  &quot;Result: 3&quot;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">const</span> subscribe = example.subscribe(<span class="function"><span class="params">val</span> =&gt;</span> <span class="built_in">console</span>.log(val));</span><br></pre></td></tr></table></figure>
+<h3 id="pairwise"><a href="#pairwise" class="headerlink" title="pairwise"></a>pairwise</h3><blockquote>
+<p>将前一个值和当前值作为数组发出(pairwise(): Observable<Array>)</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// RxJS v6+</span></span><br><span class="line"><span class="keyword">import</span> &#123; pairwise, take &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs/operators&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; interval &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 返回: [0,1], [1,2], [2,3], [3,4], [4,5]</span></span><br><span class="line">interval(<span class="number">1000</span>)</span><br><span class="line">  .pipe(</span><br><span class="line">    pairwise(),</span><br><span class="line">    take(<span class="number">5</span>)</span><br><span class="line">  )</span><br><span class="line">  .subscribe(<span class="built_in">console</span>.log);</span><br></pre></td></tr></table></figure>
+<h3 id="race-已弃用"><a href="#race-已弃用" class="headerlink" title="race (已弃用)"></a>race (已弃用)</h3><blockquote>
+<p>使用首先发出值的 observable(race(): Observable)</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// RxJS v6+</span></span><br><span class="line"><span class="keyword">import</span> &#123; mapTo &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs/operators&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; interval &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs/observable/interval&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; race &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs/observable/race&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 接收第一个发出值的 observable</span></span><br><span class="line"><span class="keyword">const</span> example = race(</span><br><span class="line">  <span class="comment">// 每1.5秒发出值</span></span><br><span class="line">  interval(<span class="number">1500</span>),</span><br><span class="line">  <span class="comment">// 每1秒发出值</span></span><br><span class="line">  interval(<span class="number">1000</span>).pipe(mapTo(<span class="string">&#x27;1s won!&#x27;</span>)),</span><br><span class="line">  <span class="comment">// 每2秒发出值</span></span><br><span class="line">  interval(<span class="number">2000</span>),</span><br><span class="line">  <span class="comment">// 每2.5秒发出值</span></span><br><span class="line">  interval(<span class="number">2500</span>)</span><br><span class="line">);</span><br><span class="line"><span class="comment">// 输出: &quot;1s won!&quot;...&quot;1s won!&quot;...etc</span></span><br><span class="line"><span class="keyword">const</span> subscribe = example.subscribe(<span class="function"><span class="params">val</span> =&gt;</span> <span class="built_in">console</span>.log(val));</span><br></pre></td></tr></table></figure>
+<h3 id="startWith"><a href="#startWith" class="headerlink" title="startWith"></a>startWith</h3><blockquote>
+<p>发出给定的第一个值(startWith(an: Values): Observable)</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// RxJS v6+</span></span><br><span class="line"><span class="keyword">import</span> &#123; startWith &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs/operators&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="keyword">of</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 发出 (1,2,3)</span></span><br><span class="line"><span class="keyword">const</span> source = <span class="keyword">of</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line"><span class="comment">// 从0开始</span></span><br><span class="line"><span class="keyword">const</span> example = source.pipe(startWith(<span class="number">0</span>));</span><br><span class="line"><span class="comment">// 输出: 0,1,2,3</span></span><br><span class="line"><span class="keyword">const</span> subscribe = example.subscribe(<span class="function"><span class="params">val</span> =&gt;</span> <span class="built_in">console</span>.log(val));</span><br></pre></td></tr></table></figure>
+
+<h3 id="withLatestFrom"><a href="#withLatestFrom" class="headerlink" title="withLatestFrom"></a>withLatestFrom</h3><blockquote>
+<p>observable输出时同时输出另一个observable（withLatestFrom(other: Observable, project: Function): Observable）,需注意combinelatest与withLatestFrom一样，当所有observable都有值时才会发出值，与 combinelatest的区别是withLatestFrom只监听调用的observable</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// RxJS v6+</span></span><br><span class="line"><span class="keyword">import</span> &#123; withLatestFrom, map &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs/operators&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; interval &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 每5秒发出值</span></span><br><span class="line"><span class="keyword">const</span> source = interval(<span class="number">5000</span>);</span><br><span class="line"><span class="comment">// 每1秒发出值</span></span><br><span class="line"><span class="keyword">const</span> secondSource = interval(<span class="number">1000</span>);</span><br><span class="line"><span class="keyword">const</span> example = source.pipe(</span><br><span class="line">  withLatestFrom(secondSource),</span><br><span class="line">  map(<span class="function">(<span class="params">[first, second]</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`First Source (5s): <span class="subst">$&#123;first&#125;</span> Second Source (1s): <span class="subst">$&#123;second&#125;</span>`</span>;</span><br><span class="line">  &#125;)</span><br><span class="line">);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输出:</span></span><br><span class="line"><span class="comment">  &quot;First Source (5s): 0 Second Source (1s): 4&quot;</span></span><br><span class="line"><span class="comment">  &quot;First Source (5s): 1 Second Source (1s): 9&quot;</span></span><br><span class="line"><span class="comment">  &quot;First Source (5s): 2 Second Source (1s): 14&quot;</span></span><br><span class="line"><span class="comment">  ...</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">const</span> subscribe = example.subscribe(<span class="function"><span class="params">val</span> =&gt;</span> <span class="built_in">console</span>.log(val));</span><br></pre></td></tr></table></figure>
+<h3 id="zip（已弃用）"><a href="#zip（已弃用）" class="headerlink" title="zip（已弃用）"></a>zip（已弃用）</h3><blockquote>
+<p>zip(zip(observables: *): Observable) 操作符会订阅所有内部 observables，然后等待每个发出一个值。一旦发生这种情况，将发出具有相应索引的所有值。这会持续进行，直到至少一个内部 observable 完成。</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// RxJS v6+</span></span><br><span class="line"><span class="keyword">import</span> &#123; delay &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs/operators&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="keyword">of</span>, zip &#125; <span class="keyword">from</span> <span class="string">&#x27;rxjs&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> sourceOne = <span class="keyword">of</span>(<span class="string">&#x27;Hello&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> sourceTwo = <span class="keyword">of</span>(<span class="string">&#x27;World!&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> sourceThree = <span class="keyword">of</span>(<span class="string">&#x27;Goodbye&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> sourceFour = <span class="keyword">of</span>(<span class="string">&#x27;World!&#x27;</span>);</span><br><span class="line"><span class="comment">// 一直等到所有 observables 都发出一个值，才将所有值作为数组发出</span></span><br><span class="line"><span class="keyword">const</span> example = zip(</span><br><span class="line">  sourceOne,</span><br><span class="line">  sourceTwo.pipe(delay(<span class="number">1000</span>)),</span><br><span class="line">  sourceThree.pipe(delay(<span class="number">2000</span>)),</span><br><span class="line">  sourceFour.pipe(delay(<span class="number">3000</span>))</span><br><span class="line">);</span><br><span class="line"><span class="comment">// 输出: [&quot;Hello&quot;, &quot;World!&quot;, &quot;Goodbye&quot;, &quot;World!&quot;]</span></span><br><span class="line"><span class="keyword">const</span> subscribe = example.subscribe(<span class="function"><span class="params">val</span> =&gt;</span> <span class="built_in">console</span>.log(val));</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/wyh.github.io/2021/02/26/rxjs/subject/" rel="prev" title="rxjs中的各类subject(ts)">
+                  <i class="fa fa-chevron-left"></i> rxjs中的各类subject(ts)
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/wyh.github.io/2021/02/26/rxjs/operators.error/" rel="next" title="rxjs中的操作符 - 错误处理">
+                  rxjs中的操作符 - 错误处理 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wyh</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/wyh.github.io/js/utils.js"></script><script src="/wyh.github.io/js/motion.js"></script><script src="/wyh.github.io/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

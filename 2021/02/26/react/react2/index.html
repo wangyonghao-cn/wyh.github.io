@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/wyh.github.io/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/wyh.github.io/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/wyh.github.io/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/wyh.github.io/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/wyh.github.io/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"github.com","root":"/wyh.github.io/","images":"/wyh.github.io/images","scheme":"Pisces","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="编辑前的准备 让我们正式开始吧！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="REACT 井字棋游戏教程学习（二）开发井字棋游戏">
+<meta property="og:url" content="https://github.com/wangyonghao-cn/wyh.github.io.git/2021/02/26/react/react2/index.html">
+<meta property="og:site_name" content="驿站">
+<meta property="og:description" content="编辑前的准备 让我们正式开始吧！">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-02-26T09:14:44.455Z">
+<meta property="article:modified_time" content="2021-02-26T09:14:44.455Z">
+<meta property="article:author" content="wyh">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://github.com/wangyonghao-cn/wyh.github.io.git/2021/02/26/react/react2/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>REACT 井字棋游戏教程学习（二）开发井字棋游戏 | 驿站</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/wyh.github.io/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">驿站</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BC%96%E8%BE%91%E5%89%8D%E7%9A%84%E5%87%86%E5%A4%87"><span class="nav-number">1.</span> <span class="nav-text">编辑前的准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B%E7%BC%96%E8%BE%91"><span class="nav-number">2.</span> <span class="nav-text">开始编辑</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A0%E9%80%92%E6%95%B0%E6%8D%AE"><span class="nav-number">2.1.</span> <span class="nav-text">传递数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E6%8F%90%E5%8D%87"><span class="nav-number">2.2.</span> <span class="nav-text">状态提升</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">wyh</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/wyh.github.io/archives">
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/wangyonghao-cn/wyh.github.io.git/2021/02/26/react/react2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/wyh.github.io/images/avatar.gif">
+      <meta itemprop="name" content="wyh">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="驿站">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          REACT 井字棋游戏教程学习（二）开发井字棋游戏
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-02-26 17:14:44" itemprop="dateCreated datePublished" datetime="2021-02-26T17:14:44+08:00">2021-02-26</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="编辑前的准备"><a href="#编辑前的准备" class="headerlink" title="编辑前的准备"></a>编辑前的准备</h1><blockquote>
+<p>让我们正式开始吧！</p>
+</blockquote>
+<span id="more"></span>
+
+<blockquote>
+<p>开始前，我们要了解，react是一个js的库，通过一些代码编写成一个个组件，然后将这些组件在拼接组合成一个复杂的页面，所以我们主要编写的就是这一个个的组件<br>首先，这些组件被分成不同的类型<br>1.React.Component,这是react的子类，我们先创建一个组件类ShoppingList</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ShoppingList</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div className=<span class="string">&quot;shopping-list&quot;</span>&gt;</span><br><span class="line">        &lt;h1&gt;Shopping List <span class="keyword">for</span> &#123;<span class="built_in">this</span>.props.name&#125;&lt;/h1&gt;</span><br><span class="line">        &lt;ul&gt;</span><br><span class="line">          &lt;li&gt;Instagram&lt;/li&gt;</span><br><span class="line">          &lt;li&gt;WhatsApp&lt;/li&gt;</span><br><span class="line">          &lt;li&gt;Oculus&lt;/li&gt;</span><br><span class="line">        &lt;/ul&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 用法示例: &lt;ShoppingList name=&quot;Mark&quot; /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>2.ShoppingList组件类可以接受一些参数，我们将这些参数叫做props,然后通过 render 方法返回需要展示在屏幕上的UI，具体来说，render方法是返回来了一个React元素</p>
+</blockquote>
+<h1 id="开始编辑"><a href="#开始编辑" class="headerlink" title="开始编辑"></a>开始编辑</h1><p>1.关注我们在第一篇文章中创建的index.js文件，通过阅读代码，我们在其中创建了三个组件类Square，Board和Game<br>2.Square 组件渲染了一个单独的 button, Board 组件渲染了 9 个方块。Game 组件渲染了含有默认值的一个棋盘，我们一会儿会修改这些值。到目前为止还没有可以交互的组件。</p>
+<h2 id="传递数据"><a href="#传递数据" class="headerlink" title="传递数据"></a>传递数据</h2><p>1.我们先做一个测试，将Board类中传递一个数据给Square,如下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Board</span></span><br><span class="line">    <span class="function"><span class="title">renderSquare</span>(<span class="params">i</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">Square</span> <span class="attr">value</span>=<span class="string">&#123;i&#125;</span> /&gt;</span></span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>2.在Square中修改render，将{ /* TODO */}替换为{ this.props.value },，这时你会看到页面中的九宫格内出现了数字</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Square</span></span><br><span class="line">    <span class="function"><span class="title">renderSquare</span>(<span class="params">i</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">Square</span> <span class="attr">value</span>=<span class="string">&#123;i&#125;</span> /&gt;</span></span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>3.接下来我们让格子中可以出现X，首先我们修改Square 组件，绑定一个方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Square</span></span><br><span class="line">    <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="name">button</span> <span class="attr">className</span>=<span class="string">&quot;square&quot;</span> <span class="attr">onClick</span>=<span class="string">&#123;()</span> =&gt;</span> &#123; alert(&#x27;click&#x27;) &#125;&#125;&gt; &#123;this.props.value&#125; <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span>);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>4.接下来我们希望它可以记住它曾经被点击过，设置一个变量记录点击状态，我们用 state 来实现所谓“记忆”的功能，我们在 this.state 中存储当前每个方格（Square）的值，并且在每次方格被点击的时候改变这个值,首先初始化一个值</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Square</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Square</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">props</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(props)</span><br><span class="line">        <span class="built_in">this</span>.state = &#123;</span><br><span class="line">            value: <span class="literal">null</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="name">button</span> <span class="attr">className</span>=<span class="string">&quot;square&quot;</span> <span class="attr">onClick</span>=<span class="string">&#123;()</span> =&gt;</span> &#123; alert(&#x27;click&#x27;) &#125;&#125;&gt; &#123;this.props.value&#125; <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>5.将this.props.value替换被this.state.value即可显示state的值,将alert替换为this.setState({value: ‘X’})即可绑定点击改变value的值为X,之后点击那个方格，就会出现X</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Square</span></span><br><span class="line">    <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="name">button</span> <span class="attr">className</span>=<span class="string">&quot;square&quot;</span> <span class="attr">onClick</span>=<span class="string">&#123;()</span> =&gt;</span> &#123; this.setState(&#123; value: &#x27;X&#x27; &#125;) &#125;&#125;&gt; &#123;this.state.value&#125; <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="状态提升"><a href="#状态提升" class="headerlink" title="状态提升"></a>状态提升</h2><blockquote>
+<p>将每个方格的状态维护到起父组件Board中，并将其绑定到每个Square上，既修改代码为</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Board</span></span><br><span class="line"><span class="function"><span class="title">constructor</span>(<span class="params">props</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>(props);</span><br><span class="line">    <span class="built_in">this</span>.state = &#123;</span><br><span class="line">        squares: <span class="built_in">Array</span>(<span class="number">9</span>).fill(<span class="literal">null</span>),</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="title">renderSquare</span>(<span class="params">i</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">Square</span> <span class="attr">value</span>=<span class="string">&#123;this.state.squares[i]&#125;</span> /&gt;</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这样我们就可以修改Board中的squares数组去控制子组件Square中的显示了，应为click事件是绑定在Square组件上的，所以我们需要想办法让Square去更新Board上的数据，由于 state 对于每个组件来说是私有的，因此我们不能直接通过 Square 来更新 Board 的 state,所以我们在Board上传进去一个函数，让Square被点击的时候被调用，如下:</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Board</span></span><br><span class="line">    <span class="function"><span class="title">renderSquare</span>(<span class="params">i</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="name">Square</span> <span class="attr">value</span>=<span class="string">&#123;this.state.squares[i]&#125;</span> <span class="attr">onClick</span>=<span class="string">&#123;this.handleClick(i)&#125;</span> /&gt;</span></span>);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>接着修改Square，因我们将所有的状态数据维护在Board组件中，所以将所有state上的数据替换为传进去的value和onClick数据，代码如下：</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Square</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Square</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="name">button</span> <span class="attr">className</span>=<span class="string">&quot;square&quot;</span> <span class="attr">onClick</span>=<span class="string">&#123;()</span> =&gt;</span> &#123; this.props.onClick() &#125;&#125;&gt; &#123;this.props.value&#125; <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在Board中维护handleClick方法</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Board</span></span><br><span class="line">    <span class="function"><span class="title">handleClick</span>(<span class="params">i</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> squares = <span class="built_in">this</span>.state.squares.slice();</span><br><span class="line">        squares[i] = <span class="string">&#x27;X&#x27;</span>;</span><br><span class="line">        <span class="built_in">this</span>.setState(&#123; <span class="attr">squares</span>: squares &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">renderSquare</span>(<span class="params">i</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="name">Square</span> <span class="attr">value</span>=<span class="string">&#123;this.state.squares[i]&#125;</span> <span class="attr">onClick</span>=<span class="string">&#123;()</span> =&gt;</span> this.handleClick(i)&#125; /&gt;</span>);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>此时，实现了跟刚刚一样的效果，不过在这时，数据是维护在Board组件类中的，接下来将设置一个属性来控制每一手棋是X还是O,每次切换，代码如下</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Board</span></span><br><span class="line">    <span class="function"><span class="title">handleClick</span>(<span class="params">i</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> squares = <span class="built_in">this</span>.state.squares.slice();</span><br><span class="line">        squares[i] = <span class="built_in">this</span>.state.nextIsX ? <span class="string">&#x27;X&#x27;</span> : <span class="string">&#x27;O&#x27;</span>;</span><br><span class="line">        <span class="built_in">this</span>.setState(&#123; <span class="attr">squares</span>: squares, <span class="attr">nextIsX</span>: !<span class="built_in">this</span>.state.nextIsX &#125;)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在Board中检查是否有人胜利，将所有胜利的可能记录下来，当某一方所下棋子满足其中一种情况时，判断其胜利，并添加规则，若格子已有值，则不允许改变</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Board</span></span><br><span class="line">    <span class="function"><span class="title">calculateWinner</span>(<span class="params">squares</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> lines = [</span><br><span class="line">            [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>],</span><br><span class="line">            [<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>],</span><br><span class="line">            [<span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>],</span><br><span class="line">            [<span class="number">0</span>, <span class="number">3</span>, <span class="number">6</span>],</span><br><span class="line">            [<span class="number">1</span>, <span class="number">4</span>, <span class="number">7</span>],</span><br><span class="line">            [<span class="number">2</span>, <span class="number">5</span>, <span class="number">8</span>],</span><br><span class="line">            [<span class="number">0</span>, <span class="number">4</span>, <span class="number">8</span>],</span><br><span class="line">            [<span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>],</span><br><span class="line">        ];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; lines.length; i++) &#123;</span><br><span class="line">            <span class="keyword">const</span> [a, b, c] = lines[i];</span><br><span class="line">            <span class="keyword">if</span> (squares[a] &amp;&amp; squares[a] === squares[b] &amp;&amp; squares[a] === squares[c]) &#123;</span><br><span class="line">                <span class="keyword">return</span> squares[a];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">handleClick</span>(<span class="params">i</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> squares = <span class="built_in">this</span>.state.squares.slice();</span><br><span class="line">        <span class="keyword">if</span> (calculateWinner(squares) || squares[i]) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        squares[i] = <span class="built_in">this</span>.state.nextIsX ? <span class="string">&#x27;X&#x27;</span> : <span class="string">&#x27;O&#x27;</span>;</span><br><span class="line">        <span class="built_in">this</span>.setState(&#123; <span class="attr">squares</span>: squares, <span class="attr">nextIsX</span>: !<span class="built_in">this</span>.state.nextIsX &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> winner = calculateWinner(<span class="built_in">this</span>.state.squares);</span><br><span class="line">        <span class="keyword">let</span> status;</span><br><span class="line">        <span class="keyword">if</span> (winner) &#123;</span><br><span class="line">            status = <span class="string">&#x27;Winner: &#x27;</span> + winner;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            status = <span class="string">&#x27;Next player: &#x27;</span> + (<span class="built_in">this</span>.state.xIsNext ? <span class="string">&#x27;X&#x27;</span> : <span class="string">&#x27;O&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        ···</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>好了，到目前为止，我们已经实现了井字棋，接下来是历史步骤的列表，这个功能需要访问 history 的数据，因此我们把 history 这个 state 放在顶层 Game 组件中。我们可以直接使用history中的数据进行展示，所以我们需要再次进行状态提升，将各种状态数据维护在Game组件类中，进行与第一次状态提升相同的操作，Board中使用传入的值和方法，代码如下</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Board</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">renderSquare</span>(<span class="params">i</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="name">Square</span> <span class="attr">value</span>=<span class="string">&#123;this.props.squares[i]&#125;</span> <span class="attr">onClick</span>=<span class="string">&#123;()</span> =&gt;</span> this.props.onClick(i)&#125; /&gt;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="name">div</span> &gt;</span></span></span><br><span class="line">            &lt;div className=&quot;board-row&quot; &gt; &#123;</span><br><span class="line">                this.renderSquare(0)</span><br><span class="line">            &#125; &#123;</span><br><span class="line">                    this.renderSquare(1)</span><br><span class="line">                &#125; &#123;</span><br><span class="line">                    this.renderSquare(2)</span><br><span class="line">                &#125;</span><br><span class="line"><span class="xml">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">            &lt;div className=&quot;board-row&quot; &gt; &#123;</span><br><span class="line">                this.renderSquare(3)</span><br><span class="line">            &#125; &#123;</span><br><span class="line">                    this.renderSquare(4)</span><br><span class="line">                &#125; &#123;</span><br><span class="line">                    this.renderSquare(5)</span><br><span class="line">                &#125;</span><br><span class="line"><span class="xml">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">            &lt;div className=&quot;board-row&quot; &gt; &#123;</span><br><span class="line">                this.renderSquare(6)</span><br><span class="line">            &#125; &#123;</span><br><span class="line">                    this.renderSquare(7)</span><br><span class="line">                &#125; &#123;</span><br><span class="line">                    this.renderSquare(8)</span><br><span class="line">                &#125;</span><br><span class="line"><span class="xml">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Game</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">props</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(props);</span><br><span class="line">        <span class="built_in">this</span>.state = &#123;</span><br><span class="line">            history: [&#123;</span><br><span class="line">                squares: <span class="built_in">Array</span>(<span class="number">9</span>).fill(<span class="literal">null</span>),</span><br><span class="line">            &#125;],</span><br><span class="line">            nextIsX: <span class="literal">true</span>,</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">handleClick</span>(<span class="params">i</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> history = <span class="built_in">this</span>.state.history;</span><br><span class="line">        <span class="keyword">const</span> current = history[history.length - <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">const</span> squares = current.squares.slice();</span><br><span class="line">        <span class="keyword">if</span> (calculateWinner(squares) || squares[i]) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        squares[i] = <span class="built_in">this</span>.state.nextIsX ? <span class="string">&#x27;X&#x27;</span> : <span class="string">&#x27;O&#x27;</span>;</span><br><span class="line">        <span class="built_in">this</span>.setState(&#123; <span class="attr">history</span>: history.concat([&#123; <span class="attr">squares</span>: squares &#125;]), <span class="attr">nextIsX</span>: !<span class="built_in">this</span>.state.nextIsX &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> history = <span class="built_in">this</span>.state.history;</span><br><span class="line">        <span class="keyword">const</span> current = history[history.length - <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">const</span> winner = calculateWinner(current.squares);</span><br><span class="line">        <span class="keyword">let</span> status;</span><br><span class="line">        <span class="keyword">if</span> (winner) &#123;</span><br><span class="line">            status = <span class="string">&#x27;Winner: &#x27;</span> + winner;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            status = <span class="string">&#x27;Next player: &#x27;</span> + (<span class="built_in">this</span>.state.nextIsX ? <span class="string">&#x27;X&#x27;</span> : <span class="string">&#x27;O&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&quot;game&quot;</span> &gt;</span></span></span><br><span class="line">            &lt;div className=&quot;game-board&quot; &gt;</span><br><span class="line">                &lt;Board squares=&#123;current.squares&#125; onClick=&#123;(i) =&gt; &#123; this.handleClick(i) &#125;&#125; /&gt;</span><br><span class="line"><span class="xml">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">            &lt;div className=&quot;game-info&quot; &gt;</span><br><span class="line">                &lt;div &gt; &#123;status&#125;</span><br><span class="line">                &lt;/div&gt;</span><br><span class="line">                &lt;ol &gt; &#123; /* TODO */&#125; &lt;/ol&gt;</span><br><span class="line">            &lt;/div &gt;</span><br><span class="line"><span class="xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">        );</span></span><br><span class="line"><span class="xml">    &#125;</span></span><br><span class="line"><span class="xml">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>然后我们需要将history展示出来，将Game中的Render修改如下：</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> history = <span class="built_in">this</span>.state.history;</span><br><span class="line">    <span class="keyword">const</span> current = history[<span class="built_in">this</span>.state.stepNumber];</span><br><span class="line">    <span class="keyword">const</span> winner = calculateWinner(current.squares);</span><br><span class="line">    <span class="keyword">const</span> moves = history.map(<span class="function">(<span class="params">step, move</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> desc = move ?</span><br><span class="line">            <span class="string">&#x27;Go to move #&#x27;</span> + move :</span><br><span class="line">            <span class="string">&#x27;Go to game start&#x27;</span>;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;li key=&#123;move&#125;&gt;</span><br><span class="line">                &lt;button onClick=&#123;<span class="function">() =&gt;</span> <span class="built_in">this</span>.jumpTo(move)&#125;&gt;&#123;desc&#125;&lt;/button&gt;</span><br><span class="line">            &lt;/li&gt;</span><br><span class="line">        );</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> status;</span><br><span class="line">    <span class="keyword">if</span> (winner) &#123;</span><br><span class="line">        status = <span class="string">&#x27;Winner: &#x27;</span> + winner;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        status = <span class="string">&#x27;Next player: &#x27;</span> + (<span class="built_in">this</span>.state.nextIsX ? <span class="string">&#x27;X&#x27;</span> : <span class="string">&#x27;O&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&quot;game&quot;</span> &gt;</span></span></span><br><span class="line">        &lt;div className=&quot;game-board&quot; &gt;</span><br><span class="line">            &lt;Board squares=&#123;current.squares&#125; onClick=&#123;(i) =&gt; &#123; this.handleClick(i) &#125;&#125; /&gt;</span><br><span class="line"><span class="xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">        &lt;div className=&quot;game-info&quot; &gt;</span><br><span class="line">            &lt;div &gt; &#123;status&#125;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">            &lt;ol &gt; &#123;moves&#125; &lt;/ol&gt;</span><br><span class="line">        &lt;/div &gt;</span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">    );</span></span><br><span class="line"><span class="xml">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>展示完成之后，点击某一步需要跳回那一步，所以就要调整jumpTo方法,并维护stepNumber，点击时跳转</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">jumpTo</span>(<span class="params">step</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.setState(&#123;</span><br><span class="line">        stepNumber: step,</span><br><span class="line">        xIsNext: (step % <span class="number">2</span>) === <span class="number">0</span>,</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>致此，一个井字棋跳转历史步骤的功能就做完了，演示代码可观看官方代码<a target="_blank" rel="noopener" href="https://codepen.io/gaearon/pen/gWWZgR?editors=0010">https://codepen.io/gaearon/pen/gWWZgR?editors=0010</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/wyh.github.io/2021/02/26/rxjs/operator-filter/" rel="prev" title="rxjs中的操作符 - 过滤">
+                  <i class="fa fa-chevron-left"></i> rxjs中的操作符 - 过滤
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/wyh.github.io/2021/02/26/react/react1/" rel="next" title="REACT 井字棋游戏教程学习（一）搭建开发环境，运行项目">
+                  REACT 井字棋游戏教程学习（一）搭建开发环境，运行项目 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wyh</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/wyh.github.io/js/utils.js"></script><script src="/wyh.github.io/js/motion.js"></script><script src="/wyh.github.io/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
